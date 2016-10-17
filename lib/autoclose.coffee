@@ -50,7 +50,7 @@ module.exports =
     lineAfter = buffer.getLines()[end.row]
     content = lineBefore.substr(lineBefore.lastIndexOf('<')) + '\n' + lineAfter
     regex = ///
-              ^.*\<([a-zA-Z-_]+)(\s.+)?\>
+              ^.*\<([a-zA-Z0-9-_]+)(\s.+)?\>
               \n
               \s*\<\/\1\>.*
             ///
@@ -60,8 +60,6 @@ module.exports =
       @currentEditor.insertText('  ')
 
   _closeTag: (event) ->
-    return if @extension in @disabledFileExtensions
-
     {text, range} = event
     if text is '\n'
       @_addIndent event.range
@@ -73,11 +71,15 @@ module.exports =
     strBefore = line.substr 0, range.start.column
     strAfter = line.substr range.end.column
     previousTagIndex = strBefore.lastIndexOf('<')
+    previousCloseIndex = strBefore.lastIndexOf('>');
+
+    if previousCloseIndex > previousTagIndex
+      return
 
     if previousTagIndex < 0
       return
 
-    tagName = strBefore.match(/^.*\<([a-zA-Z-_.]+)[^>]*?/)?[1]
+    tagName = strBefore.match(/^.*\<([a-zA-Z0-9-_.]+)[^>]*?/)?[1]
     if !tagName then return
 
     if text is '>'

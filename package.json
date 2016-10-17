@@ -1,13 +1,16 @@
 {
-  "name": "autoclose",
+  "name": "autoclose-tags",
   "main": "./lib/autoclose",
-  "version": "0.0.2",
-  "description": "close html-like tag in all file.",
+  "version": "0.1.0",
+  "description": "Close html-like tags in all files, all the time.",
   "keywords": [
     "atom",
-    "autoclose"
+    "autoclose",
+    "html",
+    "tag",
+    "close"
   ],
-  "repository": "https://github.com/awaw00/autoclose",
+  "repository": "https://github.com/MiracleBlue/autoclose-tags",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
