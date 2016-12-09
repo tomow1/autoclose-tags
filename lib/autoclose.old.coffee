@@ -82,6 +82,16 @@ module.exports =
     tagName = strBefore.match(/^.*\<([a-zA-Z0-9-_.]+)[^>]*?/)?[1]
     if !tagName then return
 
+    lineUntilOpenChar = strBefore.substr previousTagIndex
+    stringPunctuationRegex = new RegExp('"|\'', 'gi')
+    numOfStringChars = lineUntilOpenChar.match(stringPunctuationRegex).length
+    isInOpenString = numOfStringChars % 2 > 0
+
+    console.log lineUntilOpenChar
+
+
+    if isInOpenString then return
+
     if text is '>'
       if strBefore[strBefore.length - 1] is '/'
         return
