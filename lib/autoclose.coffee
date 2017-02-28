@@ -78,6 +78,11 @@ module.exports =
 
     if previousTagIndex < 0
       return
+    
+    tagString = strBefore.substr previousTagIndex
+    openedQuotes = (tagString.match(/"/g) || []).length % 2
+    openedCurly = (tagString.match(/={/g) || []).length != (tagString.match(/}/g) || []).length
+    if openedQuotes or openedCurly then return
 
     tagName = strBefore.match(/^.*\<([a-zA-Z0-9-_.]+)[^>]*?/)?[1]
     if !tagName then return
