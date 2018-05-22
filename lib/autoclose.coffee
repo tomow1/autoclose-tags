@@ -57,7 +57,6 @@ module.exports =
 
     if regex.test content
       @currentEditor.insertNewlineAbove()
-      @currentEditor.insertText('  ')
 
   _closeTag: (event) ->
     {text, range} = event
