@@ -26,7 +26,7 @@ module.exports =
       @_paneItemChanged(paneItem)
 
   deactivate: ->
-    if @action then @action.disposalAction()
+    if @action then @action.dispose()
     @subscriptions.dispose()
 
   _getFileExtension: ->
@@ -36,7 +36,7 @@ module.exports =
   _paneItemChanged: (paneItem) ->
     if !paneItem then return
 
-    if @action then @action.disposalAction()
+    if @action then @action.dispose()
     @currentEditor = paneItem
     @_getFileExtension()
     if @currentEditor.onDidInsertText
@@ -50,7 +50,7 @@ module.exports =
     lineAfter = buffer.getLines()[end.row]
     content = lineBefore.substr(lineBefore.lastIndexOf('<')) + '\n' + lineAfter
     regex = ///
-              ^.*\<([a-zA-Z0-9-_]+)(\s.+)?\>
+              ^.*\<([a-zA-Z0-9-_:]+)(\s.+)?\>
               \n
               \s*\<\/\1\>.*
             ///
@@ -77,13 +77,13 @@ module.exports =
 
     if previousTagIndex < 0
       return
-    
+
     tagString = strBefore.substr previousTagIndex
     openedQuotes = (tagString.match(/"/g) || []).length % 2
     openedCurly = (tagString.match(/={/g) || []).length != (tagString.match(/}/g) || []).length
     if openedQuotes or openedCurly then return
 
-    tagName = strBefore.match(/^.*\<([a-zA-Z0-9-_.]+)[^>]*?/)?[1]
+    tagName = strBefore.match(/^.*\<([a-zA-Z0-9-_.:]+)[^>]*?/)?[1]
     if !tagName then return
 
     if text is '>'
